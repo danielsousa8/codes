@@ -1,0 +1,36 @@
+[
+  {
+    "name"   : "droneci-server-${environment}",
+    "image"  : "drone/drone:${drone_version}",
+    "cpu"    : ${container_cpu},
+    "memory" : ${container_memory},
+    "environment": [
+      { "name" : "DRONE_OPEN"                   , "value" : "${DRONE_OPEN}" },
+      { "name" : "DRONE_HOST"                   , "value" : "${DRONE_HOST}" },
+      { "name" : "DRONE_SERVER_ADDR"            , "value" : "${DRONE_SERVER_ADDR}" },
+      { "name" : "DRONE_GITHUB"                 , "value" : "${DRONE_GITHUB}" },
+      { "name" : "DRONE_GITHUB_CLIENT"          , "value" : "${DRONE_GITHUB_CLIENT}" },
+      { "name" : "DRONE_GITHUB_SECRET"          , "value" : "${DRONE_GITHUB_SECRET}" },
+      { "name" : "DRONE_SECRET"                 , "value" : "${DRONE_SECRET}" },
+      { "name" : "DRONE_GITHUB_SKIP_VERIFY"     , "value" : "${DRONE_GITHUB_SKIP_VERIFY}" },
+      { "name" : "DRONE_ADMIN"                  , "value" : "${DRONE_ADMIN}" },  
+      { "name" : "DRONE_DATABASE_DRIVER"        , "value" : "${DRONE_DATABASE_DRIVER}" },  
+      { "name" : "DRONE_DATABASE_DATASOURCE"    , "value" : "${DRONE_DATABASE_DATASOURCE}" }  
+    ],
+    "networkMode": "awsvpc",
+    "logConfiguration": { 
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "droneci-server-${environment}"
+     }
+    },
+    "portMappings": [{
+      "containerPort": ${alb_port}
+    },
+    {
+      "containerPort": ${agent_port}
+    }]
+   }
+]

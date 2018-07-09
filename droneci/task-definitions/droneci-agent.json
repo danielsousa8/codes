@@ -1,0 +1,21 @@
+[
+  {
+    "name"   : "droneci-agent-${environment}",
+    "image"  : "drone/agent:${drone_version}",
+    "cpu"    : ${container_cpu},
+    "memory" : ${container_memory},
+    "command": [ "agent" ],
+    "environment": [
+      { "name" : "DRONE_SERVER"           , "value" : "${DRONE_SERVER}" },
+      { "name" : "DRONE_SECRET"           , "value" : "${DRONE_SECRET}" }
+    ],
+    "mountPoints": [
+      {
+        "sourceVolume": "dockersock",
+        "containerPath": "/var/run/docker.sock"
+      }
+    ],  
+    "dockerLabels": { "app": "droneci.agent.${environment}" },
+    "logConfiguration": { "logDriver": "json-file" }	
+  }
+]
